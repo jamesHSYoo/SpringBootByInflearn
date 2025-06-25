@@ -1,0 +1,2 @@
+# .vscode가 core 범위 밖에 있는데 gitignore이 core안에 있어서 처리가 안되고 있었음 그래서 해당 파일이 생성
+.vscode/
