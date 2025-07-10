@@ -1,11 +1,21 @@
 package hello.core.member;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import hello.core.AppConfig;
 
 public class MemberServiceTest {
 
-    private MemberService memberService = new MemberServiceImpl();
+    private MemberService memberService;
+
+    // Test 가 실행 되기 전에 실행되는 코드
+    @BeforeEach
+    public void beforeEach(){
+        AppConfig config = new AppConfig();
+        memberService = config.memberService();
+    }
 
     @Test
     void join(){
@@ -23,10 +33,6 @@ public class MemberServiceTest {
             이 페이지 가면 관련 내용이 정리 되어 있음.
          */
 
-        Assertions.assertEquals(member, findMember);
-
-
-
+        Assertions.assertThat(member).isEqualTo(findMember);
     }
-
 }
