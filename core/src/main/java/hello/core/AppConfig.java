@@ -1,6 +1,8 @@
 package hello.core;
 
+import hello.core.discount.DiscountPolicy;
 import hello.core.discount.FixDiscountPolicy;
+import hello.core.member.MemberRepository;
 import hello.core.member.MemberService;
 import hello.core.member.MemberServiceImpl;
 import hello.core.member.MemoryMemberRepository;
@@ -20,11 +22,22 @@ import hello.core.order.OrderServiceImpl;
 
 public class AppConfig {
     
+    private MemberRepository getMemberRepository(){
+        return new MemoryMemberRepository();
+    }
+
+    private DiscountPolicy getDiscountPolicy(){
+        return new FixDiscountPolicy();
+    }
+
     public MemberService memberService(){
-        return new MemberServiceImpl(new MemoryMemberRepository());
+        //return new MemberServiceImpl(new MemoryMemberRepository());   memberRepository 도 함수로 빼서 관리, 인스턴스 생성하는 일이 중복되어 있어 함수로 따로 관리 한 것
+        return new MemberServiceImpl(getMemberRepository());
     }
 
     public OrderService OrderService(){
-        return new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPolicy());
+        //return new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPolicy()); 위 함수와 같은 이유로 함수로 빼서 관리
+        return new OrderServiceImpl(getMemberRepository(), getDiscountPolicy());
+
     }
 }
