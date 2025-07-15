@@ -1,5 +1,8 @@
 package hello.core;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 import hello.core.discount.DiscountPolicy;
 import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.MemberRepository;
@@ -24,24 +27,26 @@ import hello.core.order.OrderServiceImpl;
  * 또는 어샘블러, 오브젝트 팩토리 등으로 불리기도 한다. 
  */
 
+@Configuration
 public class AppConfig {
     
-    private MemberRepository getMemberRepository(){
+    @Bean     // 스프링 컨테이너에 함수들이 저장된다.
+    public MemberRepository getMemberRepository(){
         return new MemoryMemberRepository();
     }
 
-    private DiscountPolicy getDiscountPolicy(){
-        //return new FixDiscountPolicy(); // 할인 정책이 바뀌면 이 함수만 변경 하면 된다. 
+    @Bean
+    public DiscountPolicy getDiscountPolicy(){
         return new RateDiscountPolicy();
     }
 
+    @Bean
     public MemberService memberService(){
-        //return new MemberServiceImpl(new MemoryMemberRepository());   memberRepository 도 함수로 빼서 관리, 인스턴스 생성하는 일이 중복되어 있어 함수로 따로 관리 한 것
         return new MemberServiceImpl(getMemberRepository());
     }
 
-    public OrderService OrderService(){
-        //return new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPolicy()); 위 함수와 같은 이유로 함수로 빼서 관리
+    @Bean
+    public OrderService orderService(){
         return new OrderServiceImpl(getMemberRepository(), getDiscountPolicy());
 
     }
