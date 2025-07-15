@@ -1,7 +1,7 @@
 package hello.core;
 
 import hello.core.discount.DiscountPolicy;
-import hello.core.discount.FixDiscountPolicy;
+import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemberService;
 import hello.core.member.MemberServiceImpl;
@@ -18,6 +18,10 @@ import hello.core.order.OrderServiceImpl;
  * 
  * DIP의 완성 : MemberServiceImpl 은 MemberRepository(인터페이스)에만 의존하고 주입되는 객체(인스턴스)는 모름
  * 관심사의 분리 : 객체를 생성하고 연결하는 역할과 실행 하는 역할이 명확하게 분리됨.
+ * 
+ * AppConfig 처럼 객체를 생성하고 관리하면서 의존관계를 연결해주는 것을 IoC 컨테이너 또는 DI 컨테이너라고 한다.
+ * 의존관계 주입에 초점을 맞추어 최근에는 주로 DI 컨테이너라고한다.
+ * 또는 어샘블러, 오브젝트 팩토리 등으로 불리기도 한다. 
  */
 
 public class AppConfig {
@@ -27,7 +31,8 @@ public class AppConfig {
     }
 
     private DiscountPolicy getDiscountPolicy(){
-        return new FixDiscountPolicy();
+        //return new FixDiscountPolicy(); // 할인 정책이 바뀌면 이 함수만 변경 하면 된다. 
+        return new RateDiscountPolicy();
     }
 
     public MemberService memberService(){
