@@ -50,7 +50,7 @@ public class ApplicationContextExtendsFindTest {
             System.out.println("key = " + key + ", value = " + beansOfType.get(key).toString());
         }
     }
-@Test
+    @Test
     @DisplayName("Object 타입으로 모두 조회하기")
     void findAllBeanByObjectType(){
         Map<String, Object> beansOfType = ac.getBeansOfType(Object.class);
