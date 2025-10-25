@@ -11,7 +11,6 @@ import hello.core.member.MemberService;
 
 public class SingletonTest {
 
-    AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
 
     @Test
     @DisplayName("스프링 없는 순수한 DI컨테이너")
@@ -52,6 +51,27 @@ public class SingletonTest {
 
     }
 
+    @Test
+    @DisplayName("스프링 컨테이너와 싱글톤")
+    void springContainer(){
 
+        AppConfig appConfig = new AppConfig();
+        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
 
+        MemberService memberService1 = appConfig.memberService();
+        MemberService memberService2 = appConfig.memberService();
+
+        // 두 인스턴스의 참조 주소가 다르다. 
+        System.out.println("memberService1 : " + memberService1);
+        System.out.println("memberService2 : " + memberService2);
+
+        // 스프링 컨테이너에 있는 Bean
+        MemberService memberServiceC1 = ac.getBean("memberService", MemberService.class);
+        MemberService memberServiceC2 = ac.getBean("memberService", MemberService.class);
+
+        // 두 인스턴스의 참조 주소가 동일 하다. 
+        System.out.println("memberServiceC1 : " + memberServiceC1);
+        System.out.println("memberServiceC2 : " + memberServiceC2);
+        Assertions.assertThat(memberServiceC1).isSameAs(memberServiceC2);
+    }
 }
