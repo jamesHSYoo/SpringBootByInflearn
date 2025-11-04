@@ -32,6 +32,7 @@ public class AppConfig {
     
     @Bean     // 스프링 컨테이너에 함수들이 저장된다.
     public MemberRepository getMemberRepository(){
+        System.out.println("Call AppConfig.memberRepository");
         return new MemoryMemberRepository();
     }
 
@@ -42,11 +43,13 @@ public class AppConfig {
 
     @Bean
     public MemberService memberService(){
+        System.out.println("Call AppConfig.orderService");
         return new MemberServiceImpl(getMemberRepository());
     }
 
     @Bean
     public OrderService orderService(){
+        System.out.println("Call AppConfig.orderRepository");
         return new OrderServiceImpl(getMemberRepository(), getDiscountPolicy());
 
     }
